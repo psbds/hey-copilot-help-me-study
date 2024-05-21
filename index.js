@@ -1,24 +1,45 @@
 $(document).ready(function () {
-
     var remainingQuestions = -1;
     var rightQuestions = 0;
     var wrongQuestions = 0;
     var editor = new JsonEditor("editor");
 
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const exam = urlParams.get('exam');
+
+    if (exam) {
+        try {
+            var decodedBase = atob(exam);
+            editor.setValue(decodedBase);
+            startExam();
+        } catch {
+            alert("Invalid exam data")
+        }
+    }
+
     $("#create-btn").click(function () {
+        startExam();
+    });
+
+
+    function startExam() {
         var questionArray;
         try {
-            questionArray = JSON.parse(editor.getValue());
+            var jsonString = editor.getValue();
+            debugger;
+            questionArray = JSON.parse(jsonString);
             remainingQuestions = questionArray.length;
         } catch (e) {
+            console.error(e);
             alert("Invalid JSON");
             return;
         }
         createQuestions(questionArray, $("#exam"));
         $("#start").hide()
-    });
-
+        $("#share").show()
+        $("#share").text("https://psbds.github.io/hey-copilot-help-me-study/?exam=" + btoa(editor.getValue()))
+    }
 
     $(document).on('click', '.question-option', function () {
         var isCorrect = onQuestionClicked($(this));
