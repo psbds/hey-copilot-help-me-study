@@ -27,7 +27,6 @@ $(document).ready(function () {
         var questionArray;
         try {
             var jsonString = editor.getValue();
-            debugger;
             questionArray = JSON.parse(jsonString);
             remainingQuestions = questionArray.length;
         } catch (e) {
@@ -38,7 +37,7 @@ $(document).ready(function () {
         createQuestions(questionArray, $("#exam"));
         $("#start").hide()
         $("#share").show()
-        $("#share").text("https://psbds.github.io/hey-copilot-help-me-study/?exam=" + btoa(editor.getValue()))
+        $("#share input").text("https://psbds.github.io/hey-copilot-help-me-study/?exam=" + btoa(editor.getValue()))
     }
 
     $(document).on('click', '.question-option', function () {
@@ -65,6 +64,18 @@ $(document).ready(function () {
         document.execCommand('copy');
         document.body.removeChild(textarea);
         alert('Text copied to clipboard');
+
+    });
+
+    $("#share-btn").on('click', function () {
+        var text = $("#share input").text();
+        var textarea = document.createElement('textarea');
+        textarea.textContent = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('Share link copied to clipboard');
 
     });
 });
