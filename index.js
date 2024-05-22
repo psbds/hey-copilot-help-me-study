@@ -37,7 +37,7 @@ $(document).ready(function () {
         createQuestions(questionArray, $("#exam"));
         $("#start").hide()
         $("#share").show()
-        $("#share input").text("https://psbds.github.io/hey-copilot-help-me-study/?exam=" + btoa(editor.getValue()))
+        $("#share input").text("https://psbds.github.io/hey-copilot-help-me-study/?exam=" + btoa(jsonString))
     }
 
     $(document).on('click', '.question-option', function () {
